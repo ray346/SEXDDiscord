@@ -1,0 +1,11 @@
+# TOHK Team 2019~2021
+# this plugin by SD(SEXD Owner) Config by TOHK
+# All rights reserved.
+#設置url
+link: "https://discord.com/api/webhooks/796720666693992448/6Qidq4K7azvs3bl26I8j39467WnCij4rZ0nJrKQ42x7AmMGGnQpo9fxP5ejh0gRok7_s"
+#設置Name
+set-name: "[伺服器線上訊息]"
+#設置server open
+server-open: "伺服器已開"
+#設置server close
+server-close: "伺服器倒閉了"

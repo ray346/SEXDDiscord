@@ -19,9 +19,22 @@ use JviguyGames\DCord\Embeds\{EmbedAuthor, EmbedColor, Embed};
 class Main extends PluginBase implements Listener{
 
     public function onEnable(){
+    @mkdir($this->getDataFolder());
+    $this->saveDefaultConfig();
+    $this->getResource("Config.yml");
     $this->getServer()->getPluginManager()->registerEvents($this, $this);
     $this->getLogger()->info("Loading");
-    $this->wb = new Webhook("your server url");
+    $this->wb = new Webhook($this->getConfig->get("url"));
+    $this->em = new Embed();
+    $this->msg = new Message();
+    ###########################
+    $date = date("m-d");
+    $time = getdate()['hours'].":".getdate()['minutes'].":".getdate()['seconds'];
+    $this->em->SetColor(new EmbedColor(141,255,51));
+    $this->em->setDescription("[".$date.",".$time."] > 伺服器已開!");
+    $this->msg->addEmbed($this->em);
+    $this->msg->setUsername($this->getConfig->get("name"));
+    $this->wb->SendAsync($this->msg);
     }
 
 
@@ -34,7 +47,7 @@ class Main extends PluginBase implements Listener{
     $this->em->SetColor(new EmbedColor(104,102,255));
     $this->em->setDescription("[".$date.",".$time."] > ".$event->getPlayer()->getName()."加入遊戲"."(目前共".count($this->getServer()->getOnlinePlayers())."人上線)");
     $this->msg->addEmbed($this->em);
-    $this->msg->setUsername("[伺服器線上訊息]");
+    $this->msg->setUsername($this->getConfig->get("name"));
     $this->wb->SendAsync($this->msg);
     }
 
@@ -47,7 +60,7 @@ class Main extends PluginBase implements Listener{
     $this->em->SetColor(new EmbedColor(255,0,255));
     $this->em->setDescription("[".$date.",".$time."] > ".$event->getPlayer()->getName()."離開遊戲"."(目前共".$m."人上線)");
     $this->msg->addEmbed($this->em);
-    $this->msg->setUsername("[伺服器線上訊息]");
+    $this->msg->setUsername($this->getConfig->get("name"));
     $this->wb->SendAsync($this->msg);
     }
 
@@ -61,10 +74,20 @@ class Main extends PluginBase implements Listener{
     $this->em->SetColor(new EmbedColor(104,102,255));
     $this->em->setDescription("[".$date.",".$time." | 聊天] > ".$event->getPlayer()->getName().": ".$msg."");
     $this->msg->addEmbed($this->em);
-    $this->msg->setUsername("[伺服器線上訊息]");
+    $this->msg->setUsername($this->getConfig->get("name"));
     $this->wb->SendAsync($this->msg);
     }
 
     public function onDisable(){
+        $this->em = new Embed();
+        $this->msg = new Message();
+        ###########################
+        $date = date("m-d");
+        $time = getdate()['hours'].":".getdate()['minutes'].":".getdate()['seconds'];
+        $this->em->SetColor(new EmbedColor(255,51,51));
+        $this->em->setDescription("[".$date.",".$time."] > 伺服器已關!");
+        $this->msg->addEmbed($this->em);
+        $this->msg->setUsername($this->getConfig->get("name"));
+        $this->wb->SendAsync($this->msg);
     }
 }
